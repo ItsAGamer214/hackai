@@ -7,8 +7,16 @@ const screenWidth = Dimensions.get('window').width;
 
 export default function HomeScreen() {
   const educationTopics = [
-    { title: 'Meditation', emoji: '🧘‍♂️' },
-    { title: 'Mental Health Tips', emoji: '💡' },
+    {
+      title: 'Meditation',
+      emoji: '🧘‍♂️',
+      image: require('@/assets/images/rippling_water.jpg'),
+    },
+    {
+      title: 'Mental Health Tips',
+      emoji: '💡',
+      image: require('@/assets/images/zen_stones.jpeg'),
+    },
     { title: 'Mindfulness', emoji: '🧠' },
     { title: 'Journaling', emoji: '📓' },
     { title: 'Stress Relief', emoji: '😌' },
@@ -42,7 +50,11 @@ export default function HomeScreen() {
               {educationTopics.map((topic, index) => (
                 <View key={index} style={styles.cardContainer}>
                   <Image
-                    source={{ uri: 'https://via.placeholder.com/260x200.png?text=Image' }}
+                    source={
+                      topic.image
+                        ? topic.image
+                        : { uri: 'https://via.placeholder.com/260x200.png?text=Image' }
+                    }
                     style={styles.cardImage}
                     resizeMode="cover"
                   />
