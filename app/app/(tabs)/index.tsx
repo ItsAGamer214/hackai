@@ -1,19 +1,26 @@
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Dimensions, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { ProgressBar } from 'react-native-paper';
 
 const screenWidth = Dimensions.get('window').width;
-const isSmallScreen = screenWidth < 600;
 
 export default function HomeScreen() {
   const educationTopics = [
-    'Meditation',
-    'Mental Health Tips',
-    'Mindfulness',
-    'Journaling',
-    'Stress Relief',
-    'Breathing Exercises',
+    {
+      title: 'Meditation',
+      emoji: '🧘‍♂️',
+      image: require('@/assets/images/rippling_water.jpg'),
+    },
+    {
+      title: 'Mental Health Tips',
+      emoji: '💡',
+      image: require('@/assets/images/zen_stones.jpeg'),
+    },
+    { title: 'Mindfulness', emoji: '🧠' },
+    { title: 'Journaling', emoji: '📓' },
+    { title: 'Stress Relief', emoji: '😌' },
+    { title: 'Breathing Exercises', emoji: '🌬️' },
   ];
 
   const levelProgress = 0.6;
@@ -41,8 +48,19 @@ export default function HomeScreen() {
               contentContainerStyle={styles.cardScroll}
             >
               {educationTopics.map((topic, index) => (
-                <View key={index} style={styles.card}>
-                  <Text style={styles.cardTitle}>{topic}</Text>
+                <View key={index} style={styles.cardContainer}>
+                  <Image
+                    source={
+                      topic.image
+                        ? topic.image
+                        : { uri: 'https://via.placeholder.com/260x200.png?text=Image' }
+                    }
+                    style={styles.cardImage}
+                    resizeMode="cover"
+                  />
+                  <Text style={styles.cardText}>
+                    {topic.emoji} {topic.title}
+                  </Text>
                 </View>
               ))}
             </ScrollView>
@@ -124,21 +142,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 10,
   },
-  card: {
+  cardContainer: {
+    width: 260,
+    marginRight: 24,
+  },
+  cardImage: {
     width: 260,
     height: 200,
-    backgroundColor: '#fff',
     borderRadius: 24,
-    marginRight: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 14,
-    paddingVertical: 14,
+    backgroundColor: '#ccc',
   },
-  cardTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    textAlign: 'center',
+  cardText: {
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'left',
+    marginTop: 8,
   },
   analyticsContainer: {
     marginTop: 40,
