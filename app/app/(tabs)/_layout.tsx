@@ -6,6 +6,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarShowLabel: false, // 🚫 Hide tab text
         tabBarActiveTintColor: '#0C356A',
         tabBarInactiveTintColor: '#A0A0A0',
         tabBarStyle: {
@@ -15,10 +16,6 @@ export default function TabLayout() {
           paddingTop: 5,
           borderTopWidth: 0,
           elevation: 0,
-        },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '600',
         },
         tabBarIconStyle: {
           marginTop: 5,
@@ -37,7 +34,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="dashboard"
         options={{
-          title: 'Dashboard', 
+          title: 'Dashboard',
           tabBarIcon: ({ color }) => (
             <Ionicons name="checkmark-done-outline" size={26} color={color} />
           ),

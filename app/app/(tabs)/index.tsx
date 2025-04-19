@@ -34,13 +34,19 @@ export default function HomeScreen() {
         {/* Education Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Education</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {educationTopics.map((topic, index) => (
-              <View key={index} style={styles.card}>
-                <Text style={styles.cardTitle}>{topic}</Text>
-              </View>
-            ))}
-          </ScrollView>
+          <View style={styles.fullWidth}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.cardScroll}
+            >
+              {educationTopics.map((topic, index) => (
+                <View key={index} style={styles.card}>
+                  <Text style={styles.cardTitle}>{topic}</Text>
+                </View>
+              ))}
+            </ScrollView>
+          </View>
         </View>
 
         {/* Analytics Section */}
@@ -111,6 +117,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 15,
   },
+  fullWidth: {
+    marginHorizontal: -20, // removes outer padding
+  },
+  cardScroll: {
+    paddingHorizontal: 20, // restores inner spacing for cards
+    paddingBottom: 10,
+  },
   card: {
     width: 220,
     height: 160,
@@ -120,6 +133,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 10,
+    paddingVertical: 10,
   },
   cardTitle: {
     fontSize: 18,
