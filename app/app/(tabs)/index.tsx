@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: 20,
     paddingBottom: 60,
+    paddingTop: 10,
     backgroundColor: '#EBF7FF',
   },
   header: {
@@ -253,8 +254,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 0,
-    marginBottom: 20,
+    marginBottom: 10,
     width: '100%',
   },
 });
