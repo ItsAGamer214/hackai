@@ -94,6 +94,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: '#EBF7FF',
+    padding: 20,
+    paddingTop: 60,
   },
   scrollContainer: {
     flexGrow: 1,
