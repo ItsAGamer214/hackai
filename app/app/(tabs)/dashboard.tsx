@@ -1,109 +1,343 @@
-import { StyleSheet, Image, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+// Define types for our data
+type SleepData = {
+  sleepRate: number;
+  sleepTime: string;
+  deepSleep: string;
+  sleepSessions: number[];
+};
 
-export default function TabTwoScreen() {
+type SleepDataMap = {
+  [key: string]: SleepData;
+};
+
+// Mock sleep data for different days
+const mockSleepData: SleepDataMap = {
+  '2024-04-04': { sleepRate: 76, sleepTime: '6h 45m', deepSleep: '4', sleepSessions: [40, 65, 55, 70, 75, 60, 50] },
+  '2024-04-05': { sleepRate: 79, sleepTime: '7h 10m', deepSleep: '5', sleepSessions: [45, 60, 70, 65, 75, 65, 55] },
+  '2024-04-06': { sleepRate: 80, sleepTime: '7h 15m', deepSleep: '5', sleepSessions: [50, 65, 75, 80, 70, 65, 60] },
+  '2024-04-07': { sleepRate: 78, sleepTime: '7h 05m', deepSleep: '5', sleepSessions: [55, 70, 65, 75, 70, 60, 50] },
+  '2024-04-08': { sleepRate: 82, sleepTime: '7h 2m', deepSleep: '1', sleepSessions: [60, 75, 70, 85, 80, 75, 65] },
+  '2024-04-09': { sleepRate: 81, sleepTime: '7h 30m', deepSleep: '1', sleepSessions: [55, 70, 80, 85, 75, 70, 60] },
+  '2024-04-10': { sleepRate: 77, sleepTime: '6h 50m', deepSleep: '5', sleepSessions: [45, 60, 70, 75, 65, 60, 50] },
+};
+
+export default function Dashboard() {
+  const [selectedDate, setSelectedDate] = useState('2024-04-08');
+  
+  // Get current sleep data based on selected date
+  const currentData = mockSleepData[selectedDate] || mockSleepData['2024-04-08'];
+  
+  // Format date for display
+  const formatDateLabel = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.getDate().toString();
+  };
+  
+  // Get day of week for display
+  const getDayOfWeek = (dateString: string) => {
+    const date = new Date(dateString);
+    return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()];
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <View style={styles.userInfo}>
+          <View style={styles.avatarContainer}>
+            <View style={styles.avatar} />
+          </View>
+          <View>
+            <Text style={styles.greeting}>Hello Yev</Text>
+            <Text style={styles.date}>8 December</Text>
+          </View>
+        </View>
+        <TouchableOpacity style={styles.settingsButton}>
+          <Text style={styles.settingsIcon}>⚙️</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Date Selector */}
+      <View style={styles.dateSelector}>
+        {Object.keys(mockSleepData).map((date) => (
+          <TouchableOpacity
+            key={date}
+            onPress={() => setSelectedDate(date)}
+            style={[
+              styles.dateButton,
+              selectedDate === date && styles.selectedDateButton
+            ]}
+          >
+            <Text style={[styles.dayText, selectedDate === date && styles.selectedDayText]}>
+              {getDayOfWeek(date)}
+            </Text>
+            <Text style={[styles.dateText, selectedDate === date && styles.selectedDateText]}>
+              {formatDateLabel(date)}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* Analytics Section */}
+      <View style={styles.sleepDataContainer}>
+        <View style={styles.sleepDataHeader}>
+          <Text style={styles.sleepDataTitle}>Analytics</Text>
+          <TouchableOpacity>
+            <Text style={styles.moreIcon}>⋮</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.sleepMetrics}>
+          {/* Mood */}
+          <View style={styles.metricItem}>
+            <View style={styles.metricLabel}>
+              <Text style={styles.metricText}>Mood</Text>
+            </View>
+            <View style={styles.metricValue}>
+              <Text style={styles.metricNumber}>{currentData.sleepRate}%</Text>
+            </View>
+          </View>
+
+          {/* time spent */}
+          <View style={styles.metricItem}>
+            <View style={styles.metricLabel}>
+              <Text style={styles.metricText}>time spent</Text>
+            </View>
+            <View style={styles.metricValue}>
+              <Text style={styles.metricNumber}>{currentData.sleepTime}</Text>
+            </View>
+          </View>
+
+          {/* Quests */}
+          <View style={styles.metricItem}>
+            <View style={styles.metricLabel}>
+              <Text style={styles.metricText}>Quests</Text>
+            </View>
+            <View style={styles.metricValue}>
+              <Text style={styles.metricNumber}>{currentData.deepSleep}</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Sleep Chart - Progress Bar */}
+        <View style={styles.chartContainer}>
+          <View style={styles.progressBar}>
+            <View 
+              style={[
+                styles.progressFill,
+                { width: `${currentData.sleepRate}%` }
+              ]} 
+            />
+          </View>
+          <Text style={styles.progressText}>Level Progression</Text>
+        </View>
+      </View>
+
+      {/* Voice Journals Section */}
+      <View style={styles.sleepSessionContainer}>
+        <Text style={styles.sleepSessionTitle}>Voice Journals</Text>
+        <View style={styles.journalEntry}>
+          <Text style={styles.journalText}>
+            "Today was a productive day. I managed to complete all my tasks and even had time for some self-reflection. The meditation session in the morning really helped set a positive tone for the day. Looking forward to maintaining this momentum tomorrow."
+          </Text>
+          <Text style={styles.journalTime}>2 hours ago</Text>
+        </View>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    backgroundColor: '#EBF7FF',
+    padding: 16,
+    paddingTop: 60,
   },
-  titleContainer: {
+  header: {
     flexDirection: 'row',
-    gap: 8,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+    marginTop: 8,
+  },
+  userInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  avatarContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#e0f2fe',
+    borderWidth: 1,
+    borderColor: '#bfdbfe',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#93c5fd',
+  },
+  greeting: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  date: {
+    fontSize: 14,
+    color: '#4b5563',
+  },
+  settingsButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+  },
+  settingsIcon: {
+    fontSize: 16,
+  },
+  dateSelector: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    padding: 8,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+  },
+  dateButton: {
+    alignItems: 'center',
+    padding: 8,
+    borderRadius: 8,
+    minWidth: 40,
+  },
+  selectedDateButton: {
+    backgroundColor: '#3b82f6',
+  },
+  dayText: {
+    fontSize: 12,
+    color: '#4b5563',
+  },
+  selectedDayText: {
+    color: '#ffffff',
+  },
+  dateText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#1f2937',
+  },
+  selectedDateText: {
+    color: '#ffffff',
+  },
+  sleepDataContainer: {
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+  },
+  sleepDataHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  sleepDataTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  moreIcon: {
+    fontSize: 24,
+    color: '#000000',
+  },
+  sleepMetrics: {
+    flexDirection: 'row',
+    marginBottom: 32,
+  },
+  metricItem: {
+    flex: 1,
+    paddingRight: 8,
+  },
+  metricLabel: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  metricText: {
+    fontSize: 14,
+    color: '#4b5563',
+    fontWeight: '500',
+  },
+  metricValue: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  metricNumber: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  chartContainer: {
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  progressBar: {
+    width: '100%',
+    height: 8,
+    backgroundColor: '#e5e7eb',
+    borderRadius: 4,
+    marginBottom: 8,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#3b82f6',
+    borderRadius: 4,
+  },
+  progressText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  sleepSessionContainer: {
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+  },
+  sleepSessionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000000',
+    marginBottom: 16,
+  },
+  journalEntry: {
+    backgroundColor: '#f8fafc',
+    borderRadius: 12,
+    padding: 16,
+  },
+  journalText: {
+    fontSize: 14,
+    color: '#1f2937',
+    lineHeight: 20,
+    marginBottom: 8,
+  },
+  journalTime: {
+    fontSize: 12,
+    color: '#6b7280',
   },
 });
