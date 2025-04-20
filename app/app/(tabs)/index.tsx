@@ -5,8 +5,6 @@ import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import TopIcons from '@/components/TopIcons';
-import { BlurView } from 'expo-blur';
-
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -18,13 +16,13 @@ export default function HomeScreen() {
       title: 'Meditation',
       emoji: '🧘‍♂️',
       image: require('@/assets/images/rippling_water.jpg'),
-      articleUrl: 'https://www.mayoclinic.org/tests-procedures/meditation/in-depth/meditation/art-20045858',
+      articleUrl: 'https://www.youtube.com/watch?v=inpok4MKVLM', // 🧘 YouTube Meditation Link
     },
     {
       title: 'Mental Health Tips',
       emoji: '💡',
       image: require('@/assets/images/zen_stones.jpeg'),
-      articleUrl: 'https://www.who.int/news-room/fact-sheets/detail/mental-health-strengthening-our-response',
+      articleUrl: 'https://www.youtube.com/watch?v=yJNJpDEGne4', // 💡 YouTube Mental Health Tips Link
     },
     { 
       title: 'Mindfulness', 
@@ -47,6 +45,7 @@ export default function HomeScreen() {
       articleUrl: 'https://www.healthline.com/health/breathing-exercise',
     },
   ];
+  
 
   const scaleAnimations = educationTopics.map(() => new Animated.Value(1));
 
@@ -93,6 +92,7 @@ export default function HomeScreen() {
         <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
           <TopIcons />
           <Text style={styles.greetingText}>Good morning! Are you ready to have a mindful day?</Text>
+
           {/* Education Section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Education</Text>
@@ -106,15 +106,17 @@ export default function HomeScreen() {
                   activeOpacity={1}
                 >
                   <Animated.View style={[styles.cardContainer, { transform: [{ scale: scaleAnimations[index] }] }]}>
-                    <Image
-                      source={
-                        topic.image
-                          ? topic.image
-                          : { uri: 'https://via.placeholder.com/260x200.png?text=Image' }
-                      }
-                      style={styles.cardImage}
-                      resizeMode="cover"
-                    />
+                    {topic.image ? (
+                      <Image
+                        source={topic.image}
+                        style={styles.cardImage}
+                        resizeMode="cover"
+                      />
+                    ) : (
+                      <View style={[styles.cardImage, styles.placeholderImage]}>
+                        <Text style={styles.placeholderText}>{topic.emoji}</Text>
+                      </View>
+                    )}
                     <Text style={styles.cardText}>
                       {topic.emoji} {topic.title}
                     </Text>
@@ -128,7 +130,6 @@ export default function HomeScreen() {
           <View style={styles.analyticsContainer}>
             <Text style={styles.analyticsTitle}>Your Analytics</Text>
 
-            {/* Level */}
             <View style={styles.analyticsCard}>
               <Text style={styles.analyticsLabel}>Level</Text>
               <View style={styles.progressWrapper}>
@@ -144,7 +145,6 @@ export default function HomeScreen() {
               </View>
             </View>
 
-            {/* Mood + Streak */}
             <View style={styles.analyticsRow}>
               <View style={[styles.analyticsCard, { flex: 1 }]}>
                 <Text style={styles.analyticsLabel}>Mood</Text>
@@ -244,6 +244,14 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 24,
     overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  placeholderImage: {
+    backgroundColor: '#D6EDFF',
+  },
+  placeholderText: {
+    fontSize: 40,
   },
   cardText: {
     fontSize: 16,
