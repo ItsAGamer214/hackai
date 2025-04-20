@@ -26,16 +26,16 @@ export default function DashboardScreen() {
     <LinearGradient colors={['#EBF7FF', '#0C356A']} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={styles.gradient}>
       <SafeAreaView style={styles.safeArea}>
         <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-          <View style={{ marginLeft: -24 }}>
-            <TopIcons />
-          </View>
+          <TopIcons /> {/* ✅ FIXED HERE: Removed extra margin wrapper */}
 
           <View style={styles.container}>
             <Text style={styles.title}>Dashboard</Text>
 
             <View style={styles.header}>
               <View style={styles.userInfo}>
-                <View style={styles.avatarContainer}><View style={styles.avatar} /></View>
+                <View style={styles.avatarContainer}>
+                  <View style={styles.avatar} />
+                </View>
                 <View>
                   <Text style={styles.greeting}>Hello!</Text>
                   <Text style={styles.date}>8 December</Text>
@@ -100,80 +100,34 @@ const styles = StyleSheet.create({
     paddingBottom: 60,
     paddingTop: 10,
   },
-  container: {
-    flex: 1,
-    paddingTop: 10,
-  },
-  title: { fontSize: 22, fontFamily: 'JakartaBold', marginBottom: 30 },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 24,
-    marginTop: 8,
-  },
+  container: { flex: 1, paddingTop: 10 },
+  title: { fontSize: 22, fontFamily: 'JakartaBold', marginBottom: 30, marginTop: -10 },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, marginTop: 8 },
   userInfo: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  avatarContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#e0f2fe',
-    borderWidth: 1,
-    borderColor: '#bfdbfe',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  avatarContainer: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#e0f2fe', borderWidth: 1, borderColor: '#bfdbfe', justifyContent: 'center', alignItems: 'center' },
   avatar: { width: 36, height: 36, borderRadius: 18, backgroundColor: '#93c5fd' },
   greeting: { fontSize: 24, fontWeight: 'bold', color: '#000' },
   date: { fontSize: 14, color: '#4b5563' },
-  dateSelector: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#EBF7FF',
-    borderRadius: 12,
-    padding: 8,
-    marginBottom: 24,
-  },
+  dateSelector: { flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#EBF7FF', borderRadius: 12, padding: 8, marginBottom: 24 },
   dateButton: { alignItems: 'center', padding: 8, borderRadius: 8, minWidth: 40 },
   selectedDateButton: { backgroundColor: '#0174BE' },
   dayText: { fontSize: 12, color: '#4b5563' },
   selectedDayText: { color: '#ffffff' },
   dateText: { fontSize: 16, fontWeight: 'bold', color: '#1f2937' },
   selectedDateText: { color: '#ffffff' },
-  sleepDataContainer: {
-    backgroundColor: '#EBF7FF',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 24,
-  },
+  sleepDataContainer: { backgroundColor: '#EBF7FF', borderRadius: 16, padding: 20, marginBottom: 24 },
   sleepDataHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   sleepDataTitle: { fontSize: 18, fontWeight: 'bold', color: '#000' },
   moreIcon: { fontSize: 24, color: '#000' },
   sleepMetrics: { flexDirection: 'row', marginBottom: 32 },
   metricItem: { flex: 1, paddingRight: 8 },
   metricText: { fontSize: 14, color: '#4b5563', fontWeight: '500', marginBottom: 4 },
-  metricValue: { flexDirection: 'row', alignItems: 'baseline' },
   metricNumber: { fontSize: 20, fontWeight: 'bold', color: '#000' },
   chartContainer: { alignItems: 'center', marginBottom: 8 },
-  progressBar: {
-    width: '100%',
-    height: 8,
-    backgroundColor: '#ffffff',
-    borderRadius: 4,
-    marginBottom: 8,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: '#0174BE',
-    borderRadius: 4,
-  },
+  progressBar: { width: '100%', height: 8, backgroundColor: '#ffffff', borderRadius: 4, marginBottom: 8 },
+  progressFill: { height: '100%', backgroundColor: '#0174BE', borderRadius: 4 },
   progressText: { fontSize: 16, fontWeight: 'bold', color: '#000' },
-  sleepSessionContainer: {
-    backgroundColor: '#EBF7FF',
-    borderRadius: 16,
-    padding: 20,
-    marginTop: 24,
-  },
+  sleepSessionContainer: { backgroundColor: '#EBF7FF', borderRadius: 16, padding: 20, marginTop: 24 },
   sleepSessionTitle: { fontSize: 18, fontWeight: 'bold', color: '#000', marginBottom: 16 },
   journalEntry: { backgroundColor: '#f8fafc', borderRadius: 12, padding: 16 },
   journalText: { fontSize: 14, color: '#1f2937', lineHeight: 20, marginBottom: 8 },
