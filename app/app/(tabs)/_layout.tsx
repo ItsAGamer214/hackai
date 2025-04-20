@@ -1,6 +1,10 @@
 import { View, StyleSheet } from 'react-native';
 import { Tabs } from 'expo-router';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
 export default function TabLayout() {
   return (
@@ -34,7 +38,7 @@ export default function TabLayout() {
           options={{
             title: 'Home',
             tabBarIcon: ({ color }) => (
-              <Ionicons name="home-outline" size={26} color={color} />
+              <MaterialCommunityIcons name="home-roof" size={26} color={color} />
             ),
           }}
         />
@@ -43,7 +47,7 @@ export default function TabLayout() {
           options={{
             title: 'Dashboard',
             tabBarIcon: ({ color }) => (
-              <Ionicons name="stats-chart-outline" size={26} color={color} />
+              <AntDesign name="barschart" size={26} color={color} />
             ),
           }}
         />
@@ -52,7 +56,7 @@ export default function TabLayout() {
           options={{
             title: 'Journal',
             tabBarIcon: ({ color }) => (
-              <Ionicons name="book-outline" size={26} color={color} />
+              <Fontisto name="bookmark" size={24} color={color} />
             ),
           }}
         />
@@ -65,7 +69,15 @@ export default function TabLayout() {
             ),
           }}
         />
-        {/* 🚫 Removed the Tabs.Screen for "profile" */}
+        <Tabs.Screen
+          name="notifications"
+          options={{
+            title: 'Notifications',
+            tabBarIcon: ({ color }) => (
+              <Feather name="bell" size={24} color={color} />
+            ),
+          }}
+        />
       </Tabs>
     </View>
   );

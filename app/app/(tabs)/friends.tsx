@@ -1,12 +1,22 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity, Image, Animated } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Animated,
+  Dimensions,
+} from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import TopIcons from '@/components/TopIcons';
 import { Ionicons } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-// Sample friends data
+const screenWidth = Dimensions.get('window').width;
+
 const sampleFriends = [
   {
     id: 1,
@@ -50,7 +60,6 @@ export default function FriendsScreen() {
   const scrollY = useRef(new Animated.Value(0)).current;
   const insets = useSafeAreaInsets();
 
-  // Filter friends based on search term
   const filteredFriends = sampleFriends.filter(friend =>
     friend.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -69,18 +78,18 @@ export default function FriendsScreen() {
       style={styles.gradient}
     >
       <SafeAreaView style={styles.safeArea}>
-        <ScrollView 
-          contentContainerStyle={[styles.scrollContainer, { paddingBottom: insets.bottom + 100 }]}
+        <Animated.ScrollView
+          contentContainerStyle={[styles.scrollContainer, { paddingBottom: insets.bottom + 140 }]}
           showsVerticalScrollIndicator={false}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-            { useNativeDriver: true }
+            { useNativeDriver: false }
           )}
           scrollEventThrottle={16}
         >
           <TopIcons />
-          
-          <View style={styles.container}>
+
+          <View style={styles.section}>
             <Text style={styles.title}>Friends</Text>
 
             <View style={styles.searchContainer}>
@@ -91,22 +100,16 @@ export default function FriendsScreen() {
                   placeholder="Search friends..."
                   value={searchTerm}
                   onChangeText={setSearchTerm}
-                  placeholderTextColor="#666"
+                  placeholderTextColor="#6B7280"
                 />
               </View>
             </View>
 
             <View style={styles.friendsList}>
-              {filteredFriends.map((friend) => (
-                <TouchableOpacity
-                  key={friend.id}
-                  style={styles.friendItem}
-                >
+              {filteredFriends.map(friend => (
+                <TouchableOpacity key={friend.id} style={styles.friendItem}>
                   <View style={styles.friendInfo}>
-                    <Image
-                      source={{ uri: friend.avatar }}
-                      style={styles.avatar}
-                    />
+                    <Image source={{ uri: friend.avatar }} style={styles.avatar} />
                     <View style={styles.friendDetails}>
                       <Text style={styles.friendName}>{friend.name}</Text>
                       <Text style={styles.friendStatus}>{friend.status}</Text>
@@ -121,16 +124,22 @@ export default function FriendsScreen() {
                 </TouchableOpacity>
               ))}
             </View>
+
+            {/* Find New Friends Section */}
+            <TouchableOpacity style={styles.findNewButton}>
+              <Text style={styles.findNewText}>🔍 Find New Friends</Text>
+            </TouchableOpacity>
           </View>
-        </ScrollView>
-        <Animated.View 
+        </Animated.ScrollView>
+
+        <Animated.View
           style={[
             styles.tabBarBackground,
-            { 
+            {
               opacity: tabBarOpacity,
-              bottom: insets.bottom
-            }
-          ]} 
+              bottom: insets.bottom,
+            },
+          ]}
         />
       </SafeAreaView>
     </LinearGradient>
@@ -147,33 +156,34 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     paddingHorizontal: 20,
-    paddingBottom: 100,
     paddingTop: 10,
   },
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingTop: 10,
-    paddingBottom: 20,
+  section: {
+    marginTop: 0,
+    width: screenWidth,
+    marginLeft: -20,
   },
   title: {
-    fontSize: 28,
+    fontSize: 22,
     fontFamily: 'JakartaBold',
-    marginBottom: 20,
-    color: '#333',
+    marginBottom: 30,
+    color: '#000000',
+    paddingLeft: 20,
   },
+  
   searchContainer: {
+    paddingHorizontal: 20,
     marginBottom: 20,
   },
   searchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#EBF7FF',
     borderRadius: 12,
     paddingHorizontal: 15,
     height: 50,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: '#94b4d1',
   },
   searchIcon: {
     marginRight: 10,
@@ -184,18 +194,18 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   friendsList: {
-    flex: 1,
+    paddingHorizontal: 20,
   },
   friendItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#EBF7FF',
     borderRadius: 12,
     padding: 15,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: '#94b4d1',
   },
   friendInfo: {
     flexDirection: 'row',
@@ -234,6 +244,21 @@ const styles = StyleSheet.create({
     padding: 8,
     backgroundColor: '#EBF7FF',
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#94b4d1',
+  },
+  findNewButton: {
+    marginTop: 30,
+    alignSelf: 'center',
+    backgroundColor: '#0174BE',
+    paddingVertical: 14,
+    paddingHorizontal: 30,
+    borderRadius: 14,
+  },
+  findNewText: {
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: 'JakartaBold',
   },
   tabBarBackground: {
     position: 'absolute',

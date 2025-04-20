@@ -1,13 +1,11 @@
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Modal, Text, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Modal, Text, ScrollView } from 'react-native';
 
 export default function TopIcons() {
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
 
-  // Sample notifications data
   const notifications = [
     { id: 1, title: 'New Meditation Session', time: '2 hours ago', read: false },
     { id: 2, title: 'Daily Streak Reminder', time: '5 hours ago', read: true },
@@ -17,9 +15,11 @@ export default function TopIcons() {
   return (
     <>
       <View style={styles.topIcons}>
-        <TouchableOpacity onPress={() => router.push('/profile')}>
-          <Ionicons name="person-outline" size={28} color="#333" />
-        </TouchableOpacity>
+        <View style={styles.leftAlignFix}>
+          <TouchableOpacity onPress={() => router.push('/profile')}>
+            <Image source={require('@/assets/images/Gateway.png')} style={styles.iconImage} />
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity onPress={() => setIsNotificationModalVisible(true)}>
           <Ionicons name="notifications-outline" size={28} color="#333" />
         </TouchableOpacity>
@@ -45,7 +45,7 @@ export default function TopIcons() {
                   key={notification.id}
                   style={[
                     styles.notificationItem,
-                    !notification.read && styles.unreadNotification
+                    !notification.read && styles.unreadNotification,
                   ]}
                 >
                   <View style={styles.notificationContent}>
@@ -70,6 +70,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
     width: '100%',
+    paddingHorizontal: 20,
+  },
+  leftAlignFix: {
+    marginLeft: -24, // shifts the image slightly left to match Education title
+  },
+  iconImage: {
+    width: 32,
+    height: 32,
+    resizeMode: 'contain',
   },
   modalOverlay: {
     flex: 1,
@@ -133,4 +142,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#0C356A',
     marginLeft: 10,
   },
-}); 
+});
