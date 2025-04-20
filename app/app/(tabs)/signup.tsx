@@ -36,16 +36,9 @@ const SignupScreen = () => {
       return;
     }
 
-    console.log('Signup attempted with:', {
-      firstName,
-      lastName,
-      email,
-      age,
-      phone,
-      password
-    });
-
-    // Add your API call or success logic here
+    // Here you would typically send the data to your backend
+    // For now, we'll just navigate to the home page
+    router.replace('/(tabs)');
   };
 
   return (

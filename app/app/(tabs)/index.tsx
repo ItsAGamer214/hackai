@@ -175,12 +175,13 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 22,
     fontFamily: 'JakartaBold',
-    marginBottom: 15,
+    marginBottom: 30,
   },
   cardScroll: {
     paddingRight: 20,
     paddingBottom: 10,
     paddingLeft: 0,
+    marginTop: 6,
   },
   cardContainer: {
     width: 260,

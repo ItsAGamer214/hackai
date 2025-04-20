@@ -19,9 +19,9 @@ const LoginScreen = () => {
   const router = useRouter();
 
   const handleLogin = () => {
-    console.log('Login attempted with:', email, password);
-    // Example: Navigate to another screen on login
-    // router.push('/(tabs)/home');
+    // Here you would typically validate credentials with your backend
+    // For now, we'll just navigate to the home page
+    router.replace('/(tabs)');
   };
 
   return (
@@ -75,7 +75,7 @@ const LoginScreen = () => {
 
             <View style={styles.signupContainer}>
               <Text style={styles.signupText}>Don't have an account? </Text>
-              <TouchableOpacity onPress={() => router.push('/(tabs)/signup')}>
+              <TouchableOpacity onPress={() => router.push('/signup')}>
                 <Text style={styles.signupLink}>Sign Up</Text>
               </TouchableOpacity>
             </View>
