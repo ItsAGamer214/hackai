@@ -5,6 +5,8 @@ import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import TopIcons from '@/components/TopIcons';
+import { BlurView } from 'expo-blur';
+
 
 const screenWidth = Dimensions.get('window').width;
 

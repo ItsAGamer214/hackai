@@ -72,9 +72,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 20,
   },
-  leftAlignFix: {
-    marginLeft: -24, // shifts the image slightly left to match Education title
-  },
+ 
   iconImage: {
     width: 32,
     height: 32,

@@ -19,8 +19,9 @@ export default function DashboardScreen() {
   const [selectedDate, setSelectedDate] = useState('2024-04-08');
   const currentData = mockSleepData[selectedDate];
 
-  const formatDateLabel = (dateString) => new Date(dateString).getDate().toString();
-  const getDayOfWeek = (dateString) => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][new Date(dateString).getDay()];
+  const formatDateLabel = (dateString: string) => new Date(dateString).getDate().toString();
+  const getDayOfWeek = (dateString: string) => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][new Date(dateString).getDay()];
+
 
   return (
     <LinearGradient colors={['#EBF7FF', '#0C356A']} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={styles.gradient}>
