@@ -54,19 +54,17 @@ export default function HomeScreen() {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header */}
-        <View style={styles.headerContainer}>
-          <View style={styles.topIcons}>
-            <TouchableOpacity onPress={() => router.push('/profile')}>
-              <Ionicons name="person-outline" size={28} color="#333" />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Ionicons name="notifications-outline" size={28} color="#333" />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.header}>
-            <Text style={styles.greeting}>Good Morning!</Text>
-          </View>
+        <View style={styles.topIcons}>
+          <TouchableOpacity onPress={() => router.push('/profile')}>
+            <Ionicons name="person-outline" size={28} color="#333" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Ionicons name="notifications-outline" size={28} color="#333" />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.header}>
+          <Text style={styles.greeting}>Good Morning!</Text>
         </View>
 
         {/* Education Section */}
@@ -156,24 +154,14 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     paddingHorizontal: 20,
-    paddingTop: 20,
     paddingBottom: 60,
     backgroundColor: '#EBF7FF',
-  },
-  headerContainer: {
-    backgroundColor: '#EBF7FF',
-    paddingBottom: 20,
-  },
-  topIcons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    marginBottom: 20,
   },
   greeting: {
     fontSize: 28,
@@ -259,5 +247,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'JakartaBold',
     color: '#0C356A',
+  },
+  topIcons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 0,
+    marginBottom: 20,
+    width: '100%',
   },
 });
