@@ -13,11 +13,11 @@ namespace WhisperUploadExample
         // Zuki Journey (Whisper + chat) endpoints & key
         private const string AUDIO_URL        = "https://api.zukijourney.com/v1/audio/transcriptions";
         private const string TEXT_TO_TEXT_URL = "https://api.zukijourney.com/v1/chat/completions";
-        private const string ZUKI_API_KEY     = "zu-8ea0fc898a68a477ea001ffff5423885";
+        private const string ZUKI_API_KEY     = "X";
 
         // Eleven Labs TTS endpoint & key
-        private const string ELEVENLABS_KEY   = "sk_03c1cadf80b68a0eb9a5b32ee43f1b39806deb9a12aa079c";
-        private const string ELEVEN_VOICE_ID  = "56AoDkrOh6qfVPDXZ7Pt"; 
+        private const string ELEVENLABS_KEY   = "X";
+        private const string ELEVEN_VOICE_ID  = "X"; 
         private static readonly string ELEVEN_TTS_URL = 
             $"https://api.elevenlabs.io/v1/text-to-speech/{ELEVEN_VOICE_ID}";
 
