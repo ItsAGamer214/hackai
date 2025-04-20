@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
+import TopIcons from '@/components/TopIcons';
 
 // Define types for our data
 type SleepData = {
@@ -46,142 +48,148 @@ export default function DashboardScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <View style={styles.topIcons}>
-          <TouchableOpacity onPress={() => router.push('/profile')}>
-            <Ionicons name="person-outline" size={28} color="#333" />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Ionicons name="notifications-outline" size={28} color="#333" />
-          </TouchableOpacity>
-        </View>
+    <LinearGradient
+      colors={['#EBF7FF', '#0C356A']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      style={styles.gradient}
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView 
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <TopIcons />
+          
+          <View style={styles.container}>
+            <Text style={styles.title}>Dashboard</Text>
 
-        <Text style={styles.title}>Dashboard</Text>
-
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.userInfo}>
-            <View style={styles.avatarContainer}>
-              <View style={styles.avatar} />
+            {/* Header */}
+            <View style={styles.header}>
+              <View style={styles.userInfo}>
+                <View style={styles.avatarContainer}>
+                  <View style={styles.avatar} />
+                </View>
+                <View>
+                  <Text style={styles.greeting}>Hello Yev</Text>
+                  <Text style={styles.date}>8 December</Text>
+                </View>
+              </View>
+              <TouchableOpacity style={styles.settingsButton}>
+                <Text style={styles.settingsIcon}>⚙️</Text>
+              </TouchableOpacity>
             </View>
-            <View>
-              <Text style={styles.greeting}>Hello Yev</Text>
-              <Text style={styles.date}>8 December</Text>
+
+            {/* Date Selector */}
+            <View style={styles.dateSelector}>
+              {Object.keys(mockSleepData).map((date) => (
+                <TouchableOpacity
+                  key={date}
+                  onPress={() => setSelectedDate(date)}
+                  style={[
+                    styles.dateButton,
+                    selectedDate === date && styles.selectedDateButton
+                  ]}
+                >
+                  <Text style={[styles.dayText, selectedDate === date && styles.selectedDayText]}>
+                    {getDayOfWeek(date)}
+                  </Text>
+                  <Text style={[styles.dateText, selectedDate === date && styles.selectedDateText]}>
+                    {formatDateLabel(date)}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            {/* Analytics Section */}
+            <View style={styles.sleepDataContainer}>
+              <View style={styles.sleepDataHeader}>
+                <Text style={styles.sleepDataTitle}>Analytics</Text>
+                <TouchableOpacity>
+                  <Text style={styles.moreIcon}>⋮</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.sleepMetrics}>
+                {/* Mood */}
+                <View style={styles.metricItem}>
+                  <View style={styles.metricLabel}>
+                    <Text style={styles.metricText}>Mood</Text>
+                  </View>
+                  <View style={styles.metricValue}>
+                    <Text style={styles.metricNumber}>{currentData.sleepRate}%</Text>
+                  </View>
+                </View>
+
+                {/* time spent */}
+                <View style={styles.metricItem}>
+                  <View style={styles.metricLabel}>
+                    <Text style={styles.metricText}>time spent</Text>
+                  </View>
+                  <View style={styles.metricValue}>
+                    <Text style={styles.metricNumber}>{currentData.sleepTime}</Text>
+                  </View>
+                </View>
+
+                {/* Quests */}
+                <View style={styles.metricItem}>
+                  <View style={styles.metricLabel}>
+                    <Text style={styles.metricText}>Quests</Text>
+                  </View>
+                  <View style={styles.metricValue}>
+                    <Text style={styles.metricNumber}>{currentData.deepSleep}</Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* Sleep Chart - Progress Bar */}
+              <View style={styles.chartContainer}>
+                <View style={styles.progressBar}>
+                  <View 
+                    style={[
+                      styles.progressFill,
+                      { width: `${currentData.sleepRate}%` }
+                    ]} 
+                  />
+                </View>
+                <Text style={styles.progressText}>Level Progression</Text>
+              </View>
+            </View>
+
+            {/* Voice Journals Section */}
+            <View style={styles.sleepSessionContainer}>
+              <Text style={styles.sleepSessionTitle}>Voice Journals</Text>
+              <View style={styles.journalEntry}>
+                <Text style={styles.journalText}>
+                  "Today was a productive day. I managed to complete all my tasks and even had time for some self-reflection. The meditation session in the morning really helped set a positive tone for the day. Looking forward to maintaining this momentum tomorrow."
+                </Text>
+                <Text style={styles.journalTime}>2 hours ago</Text>
+              </View>
             </View>
           </View>
-          <TouchableOpacity style={styles.settingsButton}>
-            <Text style={styles.settingsIcon}>⚙️</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Date Selector */}
-        <View style={styles.dateSelector}>
-          {Object.keys(mockSleepData).map((date) => (
-            <TouchableOpacity
-              key={date}
-              onPress={() => setSelectedDate(date)}
-              style={[
-                styles.dateButton,
-                selectedDate === date && styles.selectedDateButton
-              ]}
-            >
-              <Text style={[styles.dayText, selectedDate === date && styles.selectedDayText]}>
-                {getDayOfWeek(date)}
-              </Text>
-              <Text style={[styles.dateText, selectedDate === date && styles.selectedDateText]}>
-                {formatDateLabel(date)}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        {/* Analytics Section */}
-        <View style={styles.sleepDataContainer}>
-          <View style={styles.sleepDataHeader}>
-            <Text style={styles.sleepDataTitle}>Analytics</Text>
-            <TouchableOpacity>
-              <Text style={styles.moreIcon}>⋮</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.sleepMetrics}>
-            {/* Mood */}
-            <View style={styles.metricItem}>
-              <View style={styles.metricLabel}>
-                <Text style={styles.metricText}>Mood</Text>
-              </View>
-              <View style={styles.metricValue}>
-                <Text style={styles.metricNumber}>{currentData.sleepRate}%</Text>
-              </View>
-            </View>
-
-            {/* time spent */}
-            <View style={styles.metricItem}>
-              <View style={styles.metricLabel}>
-                <Text style={styles.metricText}>time spent</Text>
-              </View>
-              <View style={styles.metricValue}>
-                <Text style={styles.metricNumber}>{currentData.sleepTime}</Text>
-              </View>
-            </View>
-
-            {/* Quests */}
-            <View style={styles.metricItem}>
-              <View style={styles.metricLabel}>
-                <Text style={styles.metricText}>Quests</Text>
-              </View>
-              <View style={styles.metricValue}>
-                <Text style={styles.metricNumber}>{currentData.deepSleep}</Text>
-              </View>
-            </View>
-          </View>
-
-          {/* Sleep Chart - Progress Bar */}
-          <View style={styles.chartContainer}>
-            <View style={styles.progressBar}>
-              <View 
-                style={[
-                  styles.progressFill,
-                  { width: `${currentData.sleepRate}%` }
-                ]} 
-              />
-            </View>
-            <Text style={styles.progressText}>Level Progression</Text>
-          </View>
-        </View>
-
-        {/* Voice Journals Section */}
-        <View style={styles.sleepSessionContainer}>
-          <Text style={styles.sleepSessionTitle}>Voice Journals</Text>
-          <View style={styles.journalEntry}>
-            <Text style={styles.journalText}>
-              "Today was a productive day. I managed to complete all my tasks and even had time for some self-reflection. The meditation session in the morning really helped set a positive tone for the day. Looking forward to maintaining this momentum tomorrow."
-            </Text>
-            <Text style={styles.journalTime}>2 hours ago</Text>
-          </View>
-        </View>
-      </View>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
   safeArea: {
     flex: 1,
-    backgroundColor: '#EBF7FF',
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingBottom: 60,
+    paddingTop: 10,
   },
   container: {
     flex: 1,
     padding: 20,
     paddingTop: 10,
-  },
-  topIcons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-    width: '100%',
   },
   title: {
     fontSize: 28,

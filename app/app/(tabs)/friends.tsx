@@ -1,47 +1,53 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
+import TopIcons from '@/components/TopIcons';
 
 export default function FriendsScreen() {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <View style={styles.topIcons}>
-          <TouchableOpacity onPress={() => router.push('/profile')}>
-            <Ionicons name="person-outline" size={28} color="#333" />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Ionicons name="notifications-outline" size={28} color="#333" />
-          </TouchableOpacity>
-        </View>
-
-        <Text style={styles.title}>Friends</Text>
-        <View style={styles.content}>
-          <Text style={styles.text}>Your friends will appear here</Text>
-        </View>
-      </View>
-    </SafeAreaView>
+    <LinearGradient
+      colors={['#EBF7FF', '#0C356A']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      style={styles.gradient}
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView 
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <TopIcons />
+          
+          <View style={styles.container}>
+            <Text style={styles.title}>Friends</Text>
+            <View style={styles.content}>
+              <Text style={styles.text}>Your friends will appear here</Text>
+            </View>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
   safeArea: {
     flex: 1,
-    backgroundColor: '#EBF7FF',
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingBottom: 60,
+    paddingTop: 10,
   },
   container: {
     flex: 1,
     padding: 20,
     paddingTop: 10,
-  },
-  topIcons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-    width: '100%',
   },
   title: {
     fontSize: 28,

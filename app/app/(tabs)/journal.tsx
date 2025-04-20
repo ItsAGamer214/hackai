@@ -3,6 +3,8 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
+import TopIcons from '@/components/TopIcons';
 
 // Sample journal entries
 const sampleJournals = [
@@ -56,80 +58,85 @@ export default function JournalScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <View style={styles.topIcons}>
-          <TouchableOpacity onPress={() => router.push('/profile')}>
-            <Ionicons name="person-outline" size={28} color="#333" />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Ionicons name="notifications-outline" size={28} color="#333" />
-          </TouchableOpacity>
-        </View>
+    <LinearGradient
+      colors={['#EBF7FF', '#0C356A']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      style={styles.gradient}
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView 
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <TopIcons />
+          
+          <View style={styles.container}>
+            <Text style={styles.title}>Journal</Text>
 
-        <Text style={styles.title}>Journal</Text>
-
-        <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search journals..."
-            value={searchTerm}
-            onChangeText={setSearchTerm}
-          />
-          <TouchableOpacity style={styles.searchButton}>
-            <Text style={styles.searchButtonText}>Search</Text>
-          </TouchableOpacity>
-        </View>
-
-        <ScrollView style={styles.contentContainer}>
-          {filteredJournals.map(journal => (
-            <TouchableOpacity
-              key={journal.id}
-              style={[
-                styles.journalItem,
-                selectedJournal.id === journal.id && styles.selectedJournalItem
-              ]}
-              onPress={() => setSelectedJournal(journal)}
-            >
-              <Text style={styles.journalDate}>{journal.date}</Text>
-              <Text style={styles.journalTitle}>{journal.title}</Text>
-              <View style={styles.moodContainer}>
-                <View style={[styles.moodIndicator, { backgroundColor: getMoodColor(journal.mood) }]} />
-                <Text style={styles.moodText}>{journal.mood}</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-
-        {selectedJournal && (
-          <View style={styles.journalDetail}>
-            <View style={styles.journalHeader}>
-              <View>
-                <Text style={styles.detailTitle}>{selectedJournal.title}</Text>
-                <Text style={styles.detailDate}>{selectedJournal.date}</Text>
-              </View>
-              <View style={styles.actionButtons}>
-                <TouchableOpacity style={styles.actionButton}>
-                  <Text style={styles.actionButtonText}>Edit</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.actionButton}>
-                  <Text style={styles.actionButtonText}>Delete</Text>
-                </TouchableOpacity>
-              </View>
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search journals..."
+                value={searchTerm}
+                onChangeText={setSearchTerm}
+              />
+              <TouchableOpacity style={styles.searchButton}>
+                <Text style={styles.searchButtonText}>Search</Text>
+              </TouchableOpacity>
             </View>
-            
-            <Text style={styles.journalContent}>{selectedJournal.content}</Text>
-            
-            <View style={styles.journalFooter}>
-              <View style={styles.moodContainer}>
-                <View style={[styles.moodIndicator, { backgroundColor: getMoodColor(selectedJournal.mood) }]} />
-                <Text style={styles.moodText}>Mood: {selectedJournal.mood}</Text>
+
+            <ScrollView style={styles.contentContainer}>
+              {filteredJournals.map(journal => (
+                <TouchableOpacity
+                  key={journal.id}
+                  style={[
+                    styles.journalItem,
+                    selectedJournal.id === journal.id && styles.selectedJournalItem
+                  ]}
+                  onPress={() => setSelectedJournal(journal)}
+                >
+                  <Text style={styles.journalDate}>{journal.date}</Text>
+                  <Text style={styles.journalTitle}>{journal.title}</Text>
+                  <View style={styles.moodContainer}>
+                    <View style={[styles.moodIndicator, { backgroundColor: getMoodColor(journal.mood) }]} />
+                    <Text style={styles.moodText}>{journal.mood}</Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+
+            {selectedJournal && (
+              <View style={styles.journalDetail}>
+                <View style={styles.journalHeader}>
+                  <View>
+                    <Text style={styles.detailTitle}>{selectedJournal.title}</Text>
+                    <Text style={styles.detailDate}>{selectedJournal.date}</Text>
+                  </View>
+                  <View style={styles.actionButtons}>
+                    <TouchableOpacity style={styles.actionButton}>
+                      <Text style={styles.actionButtonText}>Edit</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.actionButton}>
+                      <Text style={styles.actionButtonText}>Delete</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                
+                <Text style={styles.journalContent}>{selectedJournal.content}</Text>
+                
+                <View style={styles.journalFooter}>
+                  <View style={styles.moodContainer}>
+                    <View style={[styles.moodIndicator, { backgroundColor: getMoodColor(selectedJournal.mood) }]} />
+                    <Text style={styles.moodText}>Mood: {selectedJournal.mood}</Text>
+                  </View>
+                </View>
               </View>
-            </View>
+            )}
           </View>
-        )}
-      </View>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 
@@ -144,21 +151,22 @@ const getMoodColor = (mood: string) => {
 };
 
 const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
   safeArea: {
     flex: 1,
-    backgroundColor: '#EBF7FF',
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingBottom: 60,
+    paddingTop: 10,
   },
   container: {
     flex: 1,
     padding: 20,
     paddingTop: 10,
-  },
-  topIcons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-    width: '100%',
   },
   title: {
     fontSize: 28,

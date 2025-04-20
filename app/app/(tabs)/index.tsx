@@ -5,6 +5,7 @@ import { ProgressBar } from 'react-native-paper';
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
+import TopIcons from '@/components/TopIcons';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -71,18 +72,7 @@ export default function HomeScreen() {
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.topIcons}>
-            <TouchableOpacity onPress={() => router.push('/profile')}>
-              <Ionicons name="person-outline" size={28} color="#333" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setIsNotificationModalVisible(true)}>
-              <Ionicons name="notifications-outline" size={28} color="#333" />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.header}>
-            <Text style={styles.greeting}>Good Morning!</Text>
-          </View>
+          <TopIcons />
 
           {/* Education Section */}
           <View style={styles.section}>
