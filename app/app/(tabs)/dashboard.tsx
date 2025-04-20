@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   container: { flex: 1, paddingTop: 10 },
-  title: { fontSize: 22, fontFamily: 'JakartaBold', marginBottom: 30, marginTop: -10 },
+  title: { fontSize: 22, fontFamily: 'JakartaBold', marginBottom: 30,  },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, marginTop: 8 },
   userInfo: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   avatarContainer: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#e0f2fe', borderWidth: 1, borderColor: '#bfdbfe', justifyContent: 'center', alignItems: 'center' },

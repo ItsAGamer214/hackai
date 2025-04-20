@@ -68,7 +68,7 @@ export default function HomeScreen() {
       <SafeAreaView style={styles.safeArea}>
         <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
           <TopIcons />
-
+          <Text style={styles.greetingText}>Good morning! Are you ready to have a mindful day?</Text>
           {/* Education Section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Education</Text>
@@ -126,7 +126,7 @@ export default function HomeScreen() {
                 <Text
                   style={[
                     styles.moodChange,
-                    { color: moodChange >= 0 ? '#0C356A' : '#e53935' },
+                    { color: moodChange >= 0 ? '#0174BE' : '#0C356A' },
                   ]}
                 >
                   {moodChange >= 0 ? '↑' : '↓'} {Math.abs(moodChange)}%
@@ -178,17 +178,20 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  gradient: {
-    flex: 1,
-  },
-  safeArea: {
-    flex: 1,
-  },
+  gradient: { flex: 1 },
+  safeArea: { flex: 1 },
   scrollContainer: {
     flexGrow: 1,
     paddingHorizontal: 20,
     paddingBottom: 60,
     paddingTop: 10,
+  },
+  greetingText: {
+    fontSize: 26,
+    fontFamily: 'JakartaBold',
+    marginBottom: 20,
+    marginTop: 10,
+    color: '#0C356A',
   },
   section: {
     marginTop: 0,
@@ -204,24 +207,22 @@ const styles = StyleSheet.create({
   cardScroll: {
     paddingBottom: 10,
     marginTop: 6,
-    gap: 0,
   },
   cardContainer: {
     width: 260,
     marginRight: 6,
-    overflow: 'visible',
+    overflow: 'hidden',
     marginLeft: 20,
   },
   cardImage: {
     width: 260,
     height: 200,
     borderRadius: 24,
-    backgroundColor: '#ccc',
+    overflow: 'hidden',
   },
   cardText: {
     fontSize: 16,
     fontFamily: 'JakartaBold',
-    textAlign: 'left',
     marginTop: 8,
   },
   analyticsContainer: {
@@ -271,7 +272,7 @@ const styles = StyleSheet.create({
   progressBar: {
     height: 12,
     borderRadius: 10,
-    backgroundColor: '#0C356A',
+    backgroundColor: '#0174BE',
   },
   levelCircle: {
     width: 24,
@@ -279,7 +280,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: '#fff',
     borderWidth: 2,
-    borderColor: '#0C356A',
+    borderColor: '#0174BE',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -295,7 +296,7 @@ const styles = StyleSheet.create({
   streakCount: {
     fontSize: 18,
     fontFamily: 'JakartaBold',
-    color: '#0C356A',
+    color: '#0174BE',
   },
   modalOverlay: {
     flex: 1,
