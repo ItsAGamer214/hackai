@@ -11,7 +11,7 @@ namespace WhisperJournalEntry
     {
         // Whisper transcription endpoint & key
         private const string AUDIO_URL       = "https://api.zukijourney.com/v1/audio/transcriptions";
-        private const string API_KEY         = "zu-8ea0fc898a68a477ea001ffff5423885";
+        private const string API_KEY         = "X";
 
         // Path to your MP3 and the output journal file
         private const string AUDIO_FILE_PATH = @"/Users/342tanmay/Downloads/testFile.mp3";
