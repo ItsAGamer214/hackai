@@ -3,10 +3,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { ProgressBar } from 'react-native-paper';
 import { router } from 'expo-router';
+import { useState } from 'react';
+import { NotificationPopup } from '@/components/NotificationPopup';
 
 const screenWidth = Dimensions.get('window').width;
 
 export default function HomeScreen() {
+  const [showNotifications, setShowNotifications] = useState(false);
+
   const educationTopics = [
     {
       title: 'Meditation',
@@ -58,7 +62,7 @@ export default function HomeScreen() {
           <TouchableOpacity onPress={() => router.push('/profile')}>
             <Ionicons name="person-outline" size={28} color="#333" />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setShowNotifications(true)}>
             <Ionicons name="notifications-outline" size={28} color="#333" />
           </TouchableOpacity>
         </View>
@@ -142,6 +146,10 @@ export default function HomeScreen() {
           </View>
         </View>
       </ScrollView>
+      <NotificationPopup 
+        visible={showNotifications} 
+        onClose={() => setShowNotifications(false)} 
+      />
     </SafeAreaView>
   );
 }
