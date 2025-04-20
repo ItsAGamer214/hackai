@@ -27,7 +27,7 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="home-outline" size={26} color={color} />
+            <Ionicons name="cube-outline" size={26} color={color} />
           ),
         }}
       />
@@ -36,7 +36,7 @@ export default function TabLayout() {
         options={{
           title: 'Dashboard',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="checkmark-done-outline" size={26} color={color} />
+            <Ionicons name="stats-chart-outline" size={26} color={color} />
           ),
         }}
       />
@@ -50,11 +50,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="friends"
         options={{
-          title: 'Profile',
+          title: 'Friends',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="person-outline" size={26} color={color} />
+            <Ionicons name="people-outline" size={26} color={color} />
           ),
         }}
       />
