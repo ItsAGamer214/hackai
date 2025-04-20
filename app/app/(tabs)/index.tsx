@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { ProgressBar } from 'react-native-paper';
 import { router } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -49,122 +50,128 @@ export default function HomeScreen() {
   const dailyStreak = 4;
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <View style={styles.topIcons}>
-        <TouchableOpacity onPress={() => router.push('/profile')}>
-          <Ionicons name="person-outline" size={28} color="#333" />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Ionicons name="notifications-outline" size={28} color="#333" />
-        </TouchableOpacity>
-      </View>
-      
-      <ScrollView 
-        contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.header}>
-          <Text style={styles.greeting}>Good Morning!</Text>
-        </View>
+    <LinearGradient
+      colors={['#EBF7FF', '#0C356A']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      style={styles.gradient}
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView 
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.topIcons}>
+            <TouchableOpacity onPress={() => router.push('/profile')}>
+              <Ionicons name="person-outline" size={28} color="#333" />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Ionicons name="notifications-outline" size={28} color="#333" />
+            </TouchableOpacity>
+          </View>
 
-        {/* Education Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Education</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.cardScroll}
-          >
-            {educationTopics.map((topic, index) => (
-              <TouchableOpacity
-                key={index}
-                onPressIn={() => handleHoverIn(index)}
-                onPressOut={() => handleHoverOut(index)}
-                activeOpacity={1}
-              >
-                <Animated.View 
+          <View style={styles.header}>
+            <Text style={styles.greeting}>Good Morning!</Text>
+          </View>
+
+          {/* Education Section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Education</Text>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.cardScroll}
+            >
+              {educationTopics.map((topic, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPressIn={() => handleHoverIn(index)}
+                  onPressOut={() => handleHoverOut(index)}
+                  activeOpacity={1}
+                >
+                  <Animated.View 
+                    style={[
+                      styles.cardContainer,
+                      { transform: [{ scale: scaleAnimations[index] }] }
+                    ]}
+                  >
+                    <Image
+                      source={
+                        topic.image
+                          ? topic.image
+                          : { uri: 'https://via.placeholder.com/260x200.png?text=Image' }
+                      }
+                      style={styles.cardImage}
+                      resizeMode="cover"
+                    />
+                    <Text style={styles.cardText}>
+                      {topic.emoji} {topic.title}
+                    </Text>
+                  </Animated.View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+
+          {/* Analytics Section */}
+          <View style={styles.analyticsContainer}>
+            <Text style={styles.analyticsTitle}>Your Analytics</Text>
+
+            {/* Level */}
+            <View style={styles.analyticsCard}>
+              <Text style={styles.analyticsLabel}>Level</Text>
+              <View style={styles.progressWrapper}>
+                <ProgressBar
+                  progress={levelProgress}
+                  color="#0C356A"
+                  style={styles.progressBar}
+                />
+              </View>
+            </View>
+
+            {/* Mood + Streak */}
+            <View style={styles.analyticsRow}>
+              <View style={[styles.analyticsCard, { flex: 1 }]}>
+                <Text style={styles.analyticsLabel}>Mood</Text>
+                <Text
                   style={[
-                    styles.cardContainer,
-                    { transform: [{ scale: scaleAnimations[index] }] }
+                    styles.moodChange,
+                    { color: moodChange >= 0 ? '#0C356A' : '#e53935' },
                   ]}
                 >
-                  <Image
-                    source={
-                      topic.image
-                        ? topic.image
-                        : { uri: 'https://via.placeholder.com/260x200.png?text=Image' }
-                    }
-                    style={styles.cardImage}
-                    resizeMode="cover"
-                  />
-                  <Text style={styles.cardText}>
-                    {topic.emoji} {topic.title}
-                  </Text>
-                </Animated.View>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
-
-        {/* Analytics Section */}
-        <View style={styles.analyticsContainer}>
-          <Text style={styles.analyticsTitle}>Your Analytics</Text>
-
-          {/* Level */}
-          <View style={styles.analyticsCard}>
-            <Text style={styles.analyticsLabel}>Level</Text>
-            <View style={styles.progressWrapper}>
-              <ProgressBar
-                progress={levelProgress}
-                color="#0C356A"
-                style={styles.progressBar}
-              />
+                  {moodChange >= 0 ? '↑' : '↓'} {Math.abs(moodChange)}%
+                </Text>
+              </View>
+              <View style={[styles.analyticsCard, { flex: 1 }]}>
+                <Text style={styles.analyticsLabel}>Streak</Text>
+                <Text style={styles.streakCount}>🔥 {dailyStreak} days</Text>
+              </View>
             </View>
           </View>
-
-          {/* Mood + Streak */}
-          <View style={styles.analyticsRow}>
-            <View style={[styles.analyticsCard, { flex: 1 }]}>
-              <Text style={styles.analyticsLabel}>Mood</Text>
-              <Text
-                style={[
-                  styles.moodChange,
-                  { color: moodChange >= 0 ? '#0C356A' : '#e53935' },
-                ]}
-              >
-                {moodChange >= 0 ? '↑' : '↓'} {Math.abs(moodChange)}%
-              </Text>
-            </View>
-            <View style={[styles.analyticsCard, { flex: 1 }]}>
-              <Text style={styles.analyticsLabel}>Streak</Text>
-              <Text style={styles.streakCount}>🔥 {dailyStreak} days</Text>
-            </View>
-          </View>
-        </View>
-        
-        {/* Added bottom padding to ensure content isn't cut off */}
-        <View style={styles.bottomPadding} />
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
   safeArea: {
     flex: 1,
-    backgroundColor: '#EBF7FF',
   },
   scrollContainer: {
     flexGrow: 1,
     paddingHorizontal: 20,
-    backgroundColor: '#EBF7FF',
+    paddingBottom: 60,
+    paddingTop: 10,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginBottom: 20,
-    marginTop: 10,
   },
   greeting: {
     fontSize: 28,
@@ -172,24 +179,24 @@ const styles = StyleSheet.create({
   },
   section: {
     marginTop: 0,
-    backgroundColor: '#EBF7FF',
-    width: '100%',
+    width: screenWidth,
+    marginLeft: -20,
   },
   sectionTitle: {
     fontSize: 22,
     fontFamily: 'JakartaBold',
     marginBottom: 30,
+    paddingLeft: 20,
   },
   cardScroll: {
-    paddingRight: 20,
     paddingBottom: 10,
-    paddingLeft: 0,
     marginTop: 6,
   },
   cardContainer: {
     width: 260,
     marginRight: 24,
-    overflow: 'hidden',
+    overflow: 'visible',
+    marginLeft: 20,
   },
   cardImage: {
     width: 260,
@@ -205,7 +212,6 @@ const styles = StyleSheet.create({
   },
   analyticsContainer: {
     marginTop: 40,
-    backgroundColor: '#EBF7FF',
   },
   analyticsTitle: {
     fontSize: 22,
@@ -256,11 +262,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: 20,
     marginBottom: 10,
-    width: 'auto',
-  },
-  bottomPadding: {
-    height: 80, // Add extra padding at the bottom
+    width: '100%',
   },
 });
