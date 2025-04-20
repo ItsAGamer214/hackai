@@ -17,7 +17,7 @@ export default function TopIcons() {
   return (
     <>
       <View style={styles.topIcons}>
-        <TouchableOpacity onPress={() => router.push('/(tabs)/profile')}>
+        <TouchableOpacity onPress={() => router.push('/profile')}>
           <Ionicons name="person-outline" size={28} color="#333" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setIsNotificationModalVisible(true)}>

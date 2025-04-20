@@ -1,7 +1,6 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
 
 export default function TabLayout() {
   return (
@@ -66,6 +65,7 @@ export default function TabLayout() {
             ),
           }}
         />
+        {/* 🚫 Removed the Tabs.Screen for "profile" */}
       </Tabs>
     </View>
   );
