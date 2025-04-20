@@ -13,7 +13,7 @@ export default function TabLayout() {
           tabBarActiveTintColor: '#FFFFFF',
           tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.5)',
           tabBarStyle: {
-            backgroundColor: 'transparent',
+            backgroundColor: 'rgba(12, 53, 106, 0.8)',
             height: 70,
             paddingBottom: 10,
             paddingTop: 5,
@@ -23,6 +23,7 @@ export default function TabLayout() {
             bottom: 0,
             left: 0,
             right: 0,
+            zIndex: 0,
           },
           tabBarIconStyle: {
             marginTop: 5,
@@ -73,6 +74,6 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EBF7FF',
+    backgroundColor: 'transparent',
   },
 });

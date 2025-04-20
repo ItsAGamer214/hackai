@@ -204,10 +204,11 @@ const styles = StyleSheet.create({
   cardScroll: {
     paddingBottom: 10,
     marginTop: 6,
+    gap: 0,
   },
   cardContainer: {
     width: 260,
-    marginRight: 24,
+    marginRight: 6,
     overflow: 'visible',
     marginLeft: 20,
   },

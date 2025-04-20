@@ -188,13 +188,13 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 20,
     paddingTop: 10,
   },
   title: {
-    fontSize: 28,
+    fontSize: 22,
     fontFamily: 'JakartaBold',
-    marginBottom: 20,
+    marginBottom: 30,
+    paddingLeft: 20,
   },
   header: {
     flexDirection: 'row',
@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 24,
     marginTop: 8,
+    paddingHorizontal: 20,
   },
   userInfo: {
     flexDirection: 'row',
@@ -255,6 +256,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     borderWidth: 1,
     borderColor: '#e5e7eb',
+    marginHorizontal: 20,
   },
   dateButton: {
     alignItems: 'center',
@@ -287,6 +289,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     borderWidth: 1,
     borderColor: '#e5e7eb',
+    marginHorizontal: 20,
   },
   sleepDataHeader: {
     flexDirection: 'row',

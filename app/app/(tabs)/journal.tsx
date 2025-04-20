@@ -165,18 +165,19 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 20,
     paddingTop: 10,
   },
   title: {
-    fontSize: 28,
+    fontSize: 22,
     fontFamily: 'JakartaBold',
-    marginBottom: 20,
+    marginBottom: 30,
+    paddingLeft: 20,
   },
   searchContainer: {
     flexDirection: 'row',
     marginBottom: 16,
     gap: 8,
+    paddingHorizontal: 20,
   },
   searchInput: {
     flex: 1,
@@ -200,12 +201,17 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     marginBottom: 16,
+    width: '100%',
+    marginLeft: -20,
   },
   journalItem: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 8,
+    borderRadius: 20,
+    padding: 28,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    marginHorizontal: 20,
   },
   selectedJournalItem: {
     borderLeftWidth: 4,
@@ -238,9 +244,12 @@ const styles = StyleSheet.create({
   },
   journalDetail: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
+    borderRadius: 20,
+    padding: 28,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    marginHorizontal: 20,
   },
   journalHeader: {
     flexDirection: 'row',

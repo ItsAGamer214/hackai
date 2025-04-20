@@ -30,7 +30,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <View style={{ flex: 1, backgroundColor: '#EBF7FF' }}>
+      <View style={{ flex: 1, backgroundColor: 'rgba(12, 53, 106, 0.8)' }}>
         <Stack
           screenOptions={{
             headerShown: false,
