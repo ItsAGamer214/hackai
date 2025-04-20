@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity, Image, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import TopIcons from '@/components/TopIcons';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Sample friends data
 const sampleFriends = [
@@ -46,11 +47,19 @@ const sampleFriends = [
 
 export default function FriendsScreen() {
   const [searchTerm, setSearchTerm] = useState('');
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const insets = useSafeAreaInsets();
 
   // Filter friends based on search term
   const filteredFriends = sampleFriends.filter(friend =>
     friend.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const tabBarOpacity = scrollY.interpolate({
+    inputRange: [0, 50],
+    outputRange: [0, 0.7],
+    extrapolate: 'clamp',
+  });
 
   return (
     <LinearGradient
@@ -61,8 +70,13 @@ export default function FriendsScreen() {
     >
       <SafeAreaView style={styles.safeArea}>
         <ScrollView 
-          contentContainerStyle={styles.scrollContainer}
+          contentContainerStyle={[styles.scrollContainer, { paddingBottom: insets.bottom + 100 }]}
           showsVerticalScrollIndicator={false}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: true }
+          )}
+          scrollEventThrottle={16}
         >
           <TopIcons />
           
@@ -109,6 +123,15 @@ export default function FriendsScreen() {
             </View>
           </View>
         </ScrollView>
+        <Animated.View 
+          style={[
+            styles.tabBarBackground,
+            { 
+              opacity: tabBarOpacity,
+              bottom: insets.bottom
+            }
+          ]} 
+        />
       </SafeAreaView>
     </LinearGradient>
   );
@@ -124,13 +147,14 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     paddingHorizontal: 20,
-    paddingBottom: 60,
+    paddingBottom: 100,
     paddingTop: 10,
   },
   container: {
     flex: 1,
     padding: 20,
     paddingTop: 10,
+    paddingBottom: 20,
   },
   title: {
     fontSize: 28,
@@ -210,5 +234,12 @@ const styles = StyleSheet.create({
     padding: 8,
     backgroundColor: '#EBF7FF',
     borderRadius: 8,
+  },
+  tabBarBackground: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    height: 60,
+    backgroundColor: '#0C356A',
   },
 });

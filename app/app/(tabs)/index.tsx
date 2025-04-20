@@ -1,7 +1,6 @@
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Dimensions, Image, Animated, Platform, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { ProgressBar } from 'react-native-paper';
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
@@ -53,7 +52,6 @@ export default function HomeScreen() {
   const moodChange = +12;
   const dailyStreak = 4;
 
-  // Sample notifications data
   const notifications = [
     { id: 1, title: 'New Meditation Session', time: '2 hours ago', read: false },
     { id: 2, title: 'Daily Streak Reminder', time: '5 hours ago', read: true },
@@ -68,20 +66,13 @@ export default function HomeScreen() {
       style={styles.gradient}
     >
       <SafeAreaView style={styles.safeArea}>
-        <ScrollView 
-          contentContainerStyle={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-        >
+        <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
           <TopIcons />
 
           {/* Education Section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Education</Text>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.cardScroll}
-            >
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.cardScroll}>
               {educationTopics.map((topic, index) => (
                 <TouchableOpacity
                   key={index}
@@ -89,12 +80,7 @@ export default function HomeScreen() {
                   onPressOut={() => handleHoverOut(index)}
                   activeOpacity={1}
                 >
-                  <Animated.View 
-                    style={[
-                      styles.cardContainer,
-                      { transform: [{ scale: scaleAnimations[index] }] }
-                    ]}
-                  >
+                  <Animated.View style={[styles.cardContainer, { transform: [{ scale: scaleAnimations[index] }] }]}>
                     <Image
                       source={
                         topic.image
@@ -121,11 +107,15 @@ export default function HomeScreen() {
             <View style={styles.analyticsCard}>
               <Text style={styles.analyticsLabel}>Level</Text>
               <View style={styles.progressWrapper}>
-                <ProgressBar
-                  progress={levelProgress}
-                  color="#0C356A"
-                  style={styles.progressBar}
-                />
+                <View style={styles.levelCircle}>
+                  <Text style={styles.levelText}>1</Text>
+                </View>
+                <View style={styles.progressTrack}>
+                  <View style={[styles.progressBar, { width: `${levelProgress * 100}%` }]} />
+                </View>
+                <View style={styles.levelCircle}>
+                  <Text style={styles.levelText}>2</Text>
+                </View>
               </View>
             </View>
 
@@ -149,6 +139,7 @@ export default function HomeScreen() {
             </View>
           </View>
 
+          {/* Notifications Modal */}
           <Modal
             animationType="slide"
             transparent={true}
@@ -167,10 +158,7 @@ export default function HomeScreen() {
                   {notifications.map((notification) => (
                     <TouchableOpacity
                       key={notification.id}
-                      style={[
-                        styles.notificationItem,
-                        !notification.read && styles.unreadNotification
-                      ]}
+                      style={[styles.notificationItem, !notification.read && styles.unreadNotification]}
                     >
                       <View style={styles.notificationContent}>
                         <Text style={styles.notificationTitle}>{notification.title}</Text>
@@ -201,16 +189,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 60,
     paddingTop: 10,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  greeting: {
-    fontSize: 28,
-    fontFamily: 'JakartaBold',
   },
   section: {
     marginTop: 0,
@@ -259,12 +237,14 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   analyticsCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#EBF7FF',
     padding: 28,
     borderRadius: 20,
     marginBottom: 20,
     alignItems: 'center',
     minHeight: 120,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
   },
   analyticsLabel: {
     fontSize: 18,
@@ -272,17 +252,40 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   progressWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     width: screenWidth * 0.85,
     maxWidth: 340,
+    marginTop: 10,
+  },
+  progressTrack: {
+    flex: 1,
     height: 12,
     borderRadius: 10,
-    backgroundColor: '#EBF7FF',
+    backgroundColor: '#fff',
+    marginHorizontal: 12,
     overflow: 'hidden',
   },
   progressBar: {
     height: 12,
     borderRadius: 10,
-    backgroundColor: 'transparent',
+    backgroundColor: '#0C356A',
+  },
+  levelCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#fff',
+    borderWidth: 2,
+    borderColor: '#0C356A',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  levelText: {
+    fontSize: 12,
+    fontFamily: 'JakartaBold',
+    color: '#0C356A',
   },
   moodChange: {
     fontSize: 20,
@@ -292,13 +295,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'JakartaBold',
     color: '#0C356A',
-  },
-  topIcons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-    width: '100%',
   },
   modalOverlay: {
     flex: 1,
