@@ -103,6 +103,11 @@ export default function ProfileScreen() {
               </View>
             </View>
           </View>
+
+          {/* 🔵 Go to Login Button */}
+          <TouchableOpacity style={styles.loginButton} onPress={() => router.push('/login')}>
+            <Text style={styles.loginButtonText}>Go to Login</Text>
+          </TouchableOpacity>
         </ScrollView>
 
         {/* Notifications Modal */}
@@ -183,6 +188,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'JakartaBold',
     color: '#0C356A',
+  },
+  loginButton: {
+    marginTop: 30,
+    backgroundColor: '#0C356A',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: 'JakartaBold',
   },
   modalOverlay: {
     flex: 1,

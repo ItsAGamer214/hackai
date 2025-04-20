@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
+  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -22,20 +23,15 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    console.log('Login button clicked');
     if (!email || !password) {
-      console.log('Validation failed');
       Alert.alert('Error', 'Please fill in all fields');
       return;
     }
 
     try {
-      console.log('Attempting to login with:', email);
       await signInWithEmailAndPassword(auth, email, password);
-      console.log('Login successful');
       router.replace('/');
     } catch (error: any) {
-      console.log('Login error:', error);
       Alert.alert('Login Failed', error.message);
     }
   };
@@ -52,7 +48,11 @@ export default function LoginScreen() {
       >
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.logoContainer}>
-            <Text style={styles.logoText}>gateway</Text>
+            <Image
+              source={require('@/assets/images/Gateway3.png')}
+              style={styles.logoImage}
+              resizeMode="contain"
+            />
           </View>
 
           <View style={styles.formContainer}>
@@ -112,10 +112,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 30,
   },
-  logoText: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#fff',
+  logoImage: {
+    width: 250,
+    height: 100,
   },
   formContainer: {
     backgroundColor: 'rgba(255,255,255,0.95)',
