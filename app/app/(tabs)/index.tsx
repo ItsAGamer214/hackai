@@ -49,20 +49,20 @@ export default function HomeScreen() {
   const dailyStreak = 4;
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <View style={styles.topIcons}>
+        <TouchableOpacity onPress={() => router.push('/profile')}>
+          <Ionicons name="person-outline" size={28} color="#333" />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Ionicons name="notifications-outline" size={28} color="#333" />
+        </TouchableOpacity>
+      </View>
+      
       <ScrollView 
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.topIcons}>
-          <TouchableOpacity onPress={() => router.push('/profile')}>
-            <Ionicons name="person-outline" size={28} color="#333" />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Ionicons name="notifications-outline" size={28} color="#333" />
-          </TouchableOpacity>
-        </View>
-
         <View style={styles.header}>
           <Text style={styles.greeting}>Good Morning!</Text>
         </View>
@@ -141,6 +141,9 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
+        
+        {/* Added bottom padding to ensure content isn't cut off */}
+        <View style={styles.bottomPadding} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -154,8 +157,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     paddingHorizontal: 20,
-    paddingBottom: 60,
-    paddingTop: 10,
     backgroundColor: '#EBF7FF',
   },
   header: {
@@ -163,6 +164,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginBottom: 20,
+    marginTop: 10,
   },
   greeting: {
     fontSize: 28,
@@ -254,7 +256,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginHorizontal: 20,
     marginBottom: 10,
-    width: '100%',
+    width: 'auto',
+  },
+  bottomPadding: {
+    height: 80, // Add extra padding at the bottom
   },
 });
