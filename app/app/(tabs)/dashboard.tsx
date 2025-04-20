@@ -17,7 +17,7 @@ const mockSleepData = {
 
 export default function DashboardScreen() {
   const [selectedDate, setSelectedDate] = useState('2024-04-08');
-  const currentData = mockSleepData[selectedDate];
+  const currentData = mockSleepData[selectedDate as keyof typeof mockSleepData];
 
   const formatDateLabel = (dateString: string) => new Date(dateString).getDate().toString();
   const getDayOfWeek = (dateString: string) => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][new Date(dateString).getDay()];

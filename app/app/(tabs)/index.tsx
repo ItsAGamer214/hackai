@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Dimensions, Image, Animated, Platform, Modal } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Dimensions, Image, Animated, Platform, Modal, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -18,16 +18,34 @@ export default function HomeScreen() {
       title: 'Meditation',
       emoji: '🧘‍♂️',
       image: require('@/assets/images/rippling_water.jpg'),
+      articleUrl: 'https://www.mayoclinic.org/tests-procedures/meditation/in-depth/meditation/art-20045858',
     },
     {
       title: 'Mental Health Tips',
       emoji: '💡',
       image: require('@/assets/images/zen_stones.jpeg'),
+      articleUrl: 'https://www.who.int/news-room/fact-sheets/detail/mental-health-strengthening-our-response',
     },
-    { title: 'Mindfulness', emoji: '🧠' },
-    { title: 'Journaling', emoji: '📓' },
-    { title: 'Stress Relief', emoji: '😌' },
-    { title: 'Breathing Exercises', emoji: '🌬️' },
+    { 
+      title: 'Mindfulness', 
+      emoji: '🧠',
+      articleUrl: 'https://www.mindful.org/how-to-practice-mindfulness/',
+    },
+    { 
+      title: 'Journaling', 
+      emoji: '📓',
+      articleUrl: 'https://positivepsychology.com/benefits-of-journaling/',
+    },
+    { 
+      title: 'Stress Relief', 
+      emoji: '😌',
+      articleUrl: 'https://www.helpguide.org/articles/stress/quick-stress-relief.htm',
+    },
+    { 
+      title: 'Breathing Exercises', 
+      emoji: '🌬️',
+      articleUrl: 'https://www.healthline.com/health/breathing-exercise',
+    },
   ];
 
   const scaleAnimations = educationTopics.map(() => new Animated.Value(1));
@@ -48,6 +66,10 @@ export default function HomeScreen() {
       speed: 50,
       bounciness: 8,
     }).start();
+  };
+
+  const handleTopicPress = (articleUrl: string) => {
+    Linking.openURL(articleUrl);
   };
 
   const levelProgress = 0.6;
@@ -80,6 +102,7 @@ export default function HomeScreen() {
                   key={index}
                   onPressIn={() => handleHoverIn(index)}
                   onPressOut={() => handleHoverOut(index)}
+                  onPress={() => handleTopicPress(topic.articleUrl)}
                   activeOpacity={1}
                 >
                   <Animated.View style={[styles.cardContainer, { transform: [{ scale: scaleAnimations[index] }] }]}>
