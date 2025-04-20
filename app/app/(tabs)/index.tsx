@@ -1,7 +1,8 @@
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Dimensions, Image } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Dimensions, Image, Animated, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { ProgressBar } from 'react-native-paper';
+import { router } from 'expo-router';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -23,32 +24,70 @@ export default function HomeScreen() {
     { title: 'Breathing Exercises', emoji: '🌬️' },
   ];
 
+  const scaleAnimations = educationTopics.map(() => new Animated.Value(1));
+
+  const handleHoverIn = (index: number) => {
+    Animated.spring(scaleAnimations[index], {
+      toValue: 1.05,
+      useNativeDriver: true,
+      speed: 50,
+      bounciness: 8,
+    }).start();
+  };
+
+  const handleHoverOut = (index: number) => {
+    Animated.spring(scaleAnimations[index], {
+      toValue: 1,
+      useNativeDriver: true,
+      speed: 50,
+      bounciness: 8,
+    }).start();
+  };
+
   const levelProgress = 0.6;
   const moodChange = +12;
   const dailyStreak = 4;
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.greeting}>Good Morning!</Text>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.topIcons}>
+          <TouchableOpacity onPress={() => router.push('/profile')}>
+            <Ionicons name="person-outline" size={28} color="#333" />
+          </TouchableOpacity>
           <TouchableOpacity>
             <Ionicons name="notifications-outline" size={28} color="#333" />
           </TouchableOpacity>
         </View>
 
+        <View style={styles.header}>
+          <Text style={styles.greeting}>Good Morning!</Text>
+        </View>
+
         {/* Education Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Education</Text>
-          <View style={styles.fullWidth}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.cardScroll}
-            >
-              {educationTopics.map((topic, index) => (
-                <View key={index} style={styles.cardContainer}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.cardScroll}
+          >
+            {educationTopics.map((topic, index) => (
+              <TouchableOpacity
+                key={index}
+                onPressIn={() => handleHoverIn(index)}
+                onPressOut={() => handleHoverOut(index)}
+                activeOpacity={1}
+              >
+                <Animated.View 
+                  style={[
+                    styles.cardContainer,
+                    { transform: [{ scale: scaleAnimations[index] }] }
+                  ]}
+                >
                   <Image
                     source={
                       topic.image
@@ -61,10 +100,10 @@ export default function HomeScreen() {
                   <Text style={styles.cardText}>
                     {topic.emoji} {topic.title}
                   </Text>
-                </View>
-              ))}
-            </ScrollView>
-          </View>
+                </Animated.View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
 
         {/* Analytics Section */}
@@ -113,38 +152,40 @@ const styles = StyleSheet.create({
     backgroundColor: '#EBF7FF',
   },
   scrollContainer: {
+    flexGrow: 1,
     paddingHorizontal: 20,
-    paddingTop: 20,
     paddingBottom: 60,
+    backgroundColor: '#EBF7FF',
   },
   header: {
-    marginBottom: 20,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    marginBottom: 20,
   },
   greeting: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontFamily: 'JakartaBold',
   },
   section: {
-    marginTop: 10,
+    marginTop: 0,
+    backgroundColor: '#EBF7FF',
+    width: '100%',
   },
   sectionTitle: {
     fontSize: 22,
-    fontWeight: '600',
+    fontFamily: 'JakartaBold',
     marginBottom: 15,
   },
-  fullWidth: {
-    marginHorizontal: -20,
-  },
   cardScroll: {
-    paddingHorizontal: 20,
+    paddingRight: 20,
     paddingBottom: 10,
+    paddingLeft: 0,
   },
   cardContainer: {
     width: 260,
     marginRight: 24,
+    overflow: 'hidden',
   },
   cardImage: {
     width: 260,
@@ -154,16 +195,17 @@ const styles = StyleSheet.create({
   },
   cardText: {
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: 'JakartaBold',
     textAlign: 'left',
     marginTop: 8,
   },
   analyticsContainer: {
     marginTop: 40,
+    backgroundColor: '#EBF7FF',
   },
   analyticsTitle: {
     fontSize: 22,
-    fontWeight: '600',
+    fontFamily: 'JakartaBold',
     marginBottom: 15,
   },
   analyticsRow: {
@@ -181,7 +223,7 @@ const styles = StyleSheet.create({
   },
   analyticsLabel: {
     fontSize: 18,
-    fontWeight: '700',
+    fontFamily: 'JakartaBold',
     marginBottom: 10,
   },
   progressWrapper: {
@@ -199,12 +241,19 @@ const styles = StyleSheet.create({
   },
   moodChange: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: 'JakartaBold',
   },
   streakCount: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: 'JakartaBold',
     color: '#0C356A',
   },
+  topIcons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 0,
+    marginBottom: 20,
+    width: '100%',
+  },
 });
-
